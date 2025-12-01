@@ -1444,10 +1444,32 @@ const CameraController = () => {
     />;
 }
 
+// --- Responsive Camera Adjustment Component ---
+const ResponsiveCamera = () => {
+   const { camera, size } = useThree();
+   
+   useEffect(() => {
+       // Check aspect ratio
+       const isPortrait = size.height > size.width;
+       
+       // Move camera back significantly in portrait mode to keep the wide scattered tree/photos visible
+       const targetZ = isPortrait ? 55 : 35;
+       
+       // Apply new position
+       camera.position.set(0, 2, targetZ);
+       camera.updateProjectionMatrix();
+       
+   }, [size, camera]);
+
+   return null;
+}
+
 const TreeScene: React.FC = () => {
   return (
     <div className="w-full h-full relative">
         <Canvas shadows camera={{ position: [0, 2, 35], fov: 45 }} gl={{ antialias: true, toneMapping: THREE.ReinhardToneMapping, toneMappingExposure: 1.5 }}>
+            <ResponsiveCamera />
+
             <ambientLight intensity={0.3} color="#FFD700" />
             <spotLight position={[10, 20, 10]} angle={0.3} penumbra={1} intensity={2} color="#FFD700" castShadow />
             <pointLight position={[-10, 5, -10]} intensity={1} color="#4444ff" />

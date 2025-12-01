@@ -48,7 +48,16 @@ const GestureController: React.FC = () => {
 
   const startWebcam = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Mobile Support: Prefer front-facing camera ('user')
+      const constraints = {
+        video: {
+            facingMode: 'user',
+            width: { ideal: 640 }, // Lower resolution is sufficient for gesture and faster on mobile
+            height: { ideal: 480 }
+        }
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       
       // Strict check: Ensure the ref is still valid after the async call
       if (videoRef.current) {
@@ -149,8 +158,8 @@ const GestureController: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 overflow-hidden rounded-lg border-2 border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.5)] w-32 h-24 bg-black/80">
-      {loading && <div className="text-white text-xs p-2 text-center">Loading AI...</div>}
+    <div className="fixed bottom-4 left-4 z-50 overflow-hidden rounded-lg border-2 border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.5)] w-24 h-18 md:w-32 md:h-24 bg-black/80">
+      {loading && <div className="text-white text-[10px] md:text-xs p-2 text-center">Loading AI...</div>}
       <video 
         ref={videoRef} 
         autoPlay 

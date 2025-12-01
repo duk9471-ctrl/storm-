@@ -90,7 +90,7 @@ const App: React.FC = () => {
       </div>
 
       {/* UI Overlay Layer */}
-      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-6">
+      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-4 md:p-6">
         
         {/* Header */}
         <header className="flex justify-end items-start pointer-events-auto">
@@ -99,13 +99,13 @@ const App: React.FC = () => {
             <div className="flex gap-2">
                 <button 
                     onClick={toggleMusic}
-                    className={`px-4 py-3 font-bold uppercase tracking-widest transition-all duration-300 shadow-[0_0_10px_rgba(212,175,55,0.4)] ${isMusicPlaying ? 'bg-[#D4AF37] text-black' : 'bg-black/60 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/20'}`}
+                    className={`px-3 py-2 md:px-4 md:py-3 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-[0_0_10px_rgba(212,175,55,0.4)] ${isMusicPlaying ? 'bg-[#D4AF37] text-black' : 'bg-black/60 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/20'}`}
                 >
                   {isMusicPlaying ? '♫ ON' : '♫ OFF'}
                 </button>
                 <button 
                     onClick={() => fileInputRef.current?.click()}
-                    className="px-6 py-3 bg-[#D4AF37] text-black font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+                    className="px-4 py-2 md:px-6 md:py-3 text-[10px] md:text-xs bg-[#D4AF37] text-black font-bold uppercase tracking-widest hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
                 >
                   Add Photos
                 </button>
@@ -121,17 +121,17 @@ const App: React.FC = () => {
             />
              <button 
                 onClick={() => setShowInstructions(!showInstructions)}
-                className="pointer-events-auto px-6 py-2 border border-[#D4AF37] text-[#D4AF37] text-xs uppercase tracking-widest hover:bg-[#D4AF37] hover:text-black transition-all"
+                className="pointer-events-auto px-4 py-1.5 md:px-6 md:py-2 border border-[#D4AF37] text-[#D4AF37] text-[10px] md:text-xs uppercase tracking-widest hover:bg-[#D4AF37] hover:text-black transition-all"
             >
               {showInstructions ? 'Hide Help' : 'Show Help'}
             </button>
           </div>
         </header>
 
-        {/* Instructions Panel */}
+        {/* Instructions Panel - Responsive Positioning */}
         {showInstructions && (
-            <div className="absolute top-32 right-6 w-80 bg-black/60 backdrop-blur-md border-l-2 border-[#D4AF37] p-4 text-sm pointer-events-auto transition-opacity">
-                <h3 className="serif text-xl mb-3 text-white">Controls</h3>
+            <div className="absolute top-24 left-4 right-4 md:top-32 md:right-6 md:left-auto md:w-80 bg-black/60 backdrop-blur-md border-l-2 border-[#D4AF37] p-4 text-xs md:text-sm pointer-events-auto transition-opacity z-20">
+                <h3 className="serif text-lg md:text-xl mb-3 text-white">Controls</h3>
                 <ul className="space-y-2 text-gray-300 font-light">
                     <li className="flex items-center gap-2">
                         <span className="text-[#D4AF37] font-bold">✋ OPEN PALM:</span> Scatter Tree
@@ -153,11 +153,11 @@ const App: React.FC = () => {
         )}
 
         {/* Bottom Controls */}
-        <footer className="w-full flex flex-col items-center pointer-events-auto pb-8">
+        <footer className="w-full flex flex-col items-center pointer-events-auto pb-4 md:pb-8">
             
             {/* Slider Control */}
-            <div className="w-full max-w-2xl flex items-center gap-4 bg-black/40 backdrop-blur-md p-4 rounded-full border border-[#D4AF37]/30">
-                <span className="text-xs font-bold text-[#D4AF37] w-12 text-center">TREE</span>
+            <div className="w-full max-w-2xl flex items-center gap-4 bg-black/40 backdrop-blur-md p-3 md:p-4 rounded-full border border-[#D4AF37]/30">
+                <span className="text-[10px] md:text-xs font-bold text-[#D4AF37] w-12 text-center">TREE</span>
                 <input 
                     type="range" 
                     min="0" 
@@ -167,7 +167,7 @@ const App: React.FC = () => {
                     onChange={handleSliderChange}
                     className="w-full h-1 bg-emerald-900 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
                 />
-                <span className="text-xs font-bold text-[#D4AF37] w-12 text-center">CHAOS</span>
+                <span className="text-[10px] md:text-xs font-bold text-[#D4AF37] w-12 text-center">CHAOS</span>
             </div>
         </footer>
 
