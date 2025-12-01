@@ -21,15 +21,11 @@ const App: React.FC = () => {
   useEffect(() => {
       const audio = audioRef.current;
       if (audio) {
-          audio.volume = 0.5; // Increased volume for better visibility
-          
           if (isMusicPlaying) {
               const playPromise = audio.play();
               if (playPromise !== undefined) {
                   playPromise.catch(error => {
-                      console.warn("Autoplay blocked/Audio Error:", error);
-                      // Most browsers block audio until the user interacts with the page (click/tap).
-                      // The interaction listener below will handle unblocking.
+                      console.log("Autoplay blocked (waiting for interaction):", error.message);
                   });
               }
           } else {
@@ -42,10 +38,20 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleInteraction = () => {
         const audio = audioRef.current;
-        if (audio && isMusicPlaying && audio.paused) {
-            audio.play().catch(e => console.warn("Audio play failed on interaction", e));
+        if (audio) {
+            // Force settings to ensure audibility
+            audio.volume = 1.0;
+            audio.muted = false;
+            
+            if (isMusicPlaying && audio.paused) {
+                const p = audio.play();
+                if (p !== undefined) {
+                    p.then(() => console.log("Audio unlocked and playing"))
+                     .catch(e => console.error("Audio unlock failed:", e));
+                }
+            }
         }
-        // Remove listeners once triggers
+        // Remove listeners once triggered
         document.removeEventListener('click', handleInteraction);
         document.removeEventListener('touchstart', handleInteraction);
         document.removeEventListener('keydown', handleInteraction);
@@ -73,15 +79,15 @@ const App: React.FC = () => {
   return (
     <div className="w-full h-screen bg-black text-[#D4AF37] overflow-hidden relative selection:bg-[#D4AF37] selection:text-black">
       
-      {/* Background Audio with Cross-Browser Compatibility (MP3 + OGG) */}
+      {/* Background Audio - Reliable MP3 Source */}
       <audio 
         ref={audioRef} 
         loop 
         preload="auto"
+        playsInline
         crossOrigin="anonymous"
       >
-        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e5/Kevin_MacLeod_-_Jingle_Bells.ogg/Kevin_MacLeod_-_Jingle_Bells.ogg.mp3" type="audio/mpeg" />
-        <source src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Kevin_MacLeod_-_Jingle_Bells.ogg" type="audio/ogg" />
+        <source src="https://cdn.pixabay.com/audio/2022/12/22/audio_d0863dc366.mp3" type="audio/mpeg" />
       </audio>
 
       {/* 3D Scene Layer */}
