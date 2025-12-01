@@ -11,7 +11,7 @@ export const useTreeStore = create<TreeStore>((set) => ({
   activePhotoIndex: null,
   cameraVerticalTarget: 0.5, // Default center
   decorationsVisible: true,
-  isMusicPlaying: false, // Default off so user triggers it (browser policy)
+  isMusicPlaying: true, // Default to TRUE so music tries to play immediately
   
   setProgress: (p) => set({ progress: Math.max(0, Math.min(1, p)) }),
   

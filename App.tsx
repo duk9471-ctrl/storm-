@@ -29,13 +29,37 @@ const App: React.FC = () => {
                   playPromise.catch(error => {
                       console.warn("Autoplay blocked/Audio Error:", error);
                       // Most browsers block audio until the user interacts with the page (click/tap).
-                      // If this fails, the user simply needs to click the "Music ON" button once.
+                      // The interaction listener below will handle unblocking.
                   });
               }
           } else {
               audio.pause();
           }
       }
+  }, [isMusicPlaying]);
+
+  // Unlock Audio on First Interaction (Browser Autoplay Policy Fix)
+  useEffect(() => {
+    const handleInteraction = () => {
+        const audio = audioRef.current;
+        if (audio && isMusicPlaying && audio.paused) {
+            audio.play().catch(e => console.warn("Audio play failed on interaction", e));
+        }
+        // Remove listeners once triggers
+        document.removeEventListener('click', handleInteraction);
+        document.removeEventListener('touchstart', handleInteraction);
+        document.removeEventListener('keydown', handleInteraction);
+    };
+
+    document.addEventListener('click', handleInteraction);
+    document.addEventListener('touchstart', handleInteraction);
+    document.addEventListener('keydown', handleInteraction);
+
+    return () => {
+        document.removeEventListener('click', handleInteraction);
+        document.removeEventListener('touchstart', handleInteraction);
+        document.removeEventListener('keydown', handleInteraction);
+    };
   }, [isMusicPlaying]);
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
