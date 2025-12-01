@@ -1,0 +1,7 @@
+{
+  "name": "Trump-Style Luxury Tree",
+  "description": "A high-fidelity 3D Christmas Tree visualization with hand-gesture control using MediaPipe. Features cinematic lighting, particle systems, and photo spiral integration.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
